@@ -1,4 +1,4 @@
-﻿# BSI CoBuilder Agent FE
+# BSI CoBuilder Agent FE
 
 Frontend aplikasi CoBuilder Agent BSI (React + Vite) untuk alur landing -> auth -> dashboard builder dengan split panel preview/code.
 
@@ -204,6 +204,61 @@ Status code yang disarankan:
 - `422` validation error
 - `429` rate limited
 - `500` server error
+
+
+### 5.6 Sequence Komunikasi FE <-> BE (Detail Operasional)
+
+#### A. Login Flow
+
+1. FE kirim `POST /auth/login` dengan email + password.
+2. BE return `token` + object `user`.
+3. FE simpan `token` ke store persist `cb-auth`.
+4. Semua request protected berikutnya otomatis membawa header `Authorization: Bearer <token>`.
+
+#### B. Generate App Flow
+
+1. User submit prompt dari chat composer.
+2. FE stream request ke `POST /projects/:id/messages`.
+3. BE kirim chunk bertahap (`data: {"text":"..."}`) sampai `data: [DONE]`.
+4. FE finalisasi message assistant -> set state generating (`pending`).
+5. FE mulai polling `GET /projects/:id/status` berkala.
+6. Jika status `completed`, FE call `GET /projects/:id/preview`.
+7. BE return `url` preview + `files[]`.
+8. FE render tab Preview dan Code + aktifkan fitur ZIP.
+
+#### C. Edit / Iteration Flow
+
+1. User kirim revisi prompt.
+2. FE call `POST /projects/:id/edits`.
+3. BE proses diff/edit versi code.
+4. FE lanjut polling status dan refresh preview/code saat selesai.
+
+#### D. Versioning Flow
+
+1. FE call `GET /projects/:id/versions` saat user butuh histori.
+2. BE return daftar versi (`id`, timestamp, metadata).
+3. FE tampilkan sebagai referensi rollback/compare (sesuai evolusi UI).
+
+#### E. Error & Recovery Contract
+
+- Jika endpoint sync gagal: FE tampilkan error message + tidak crash.
+- Jika stream gagal: FE fallback ke simulasi stream agar UX tetap jalan.
+- Jika polling gagal setelah generate: FE set status `failed`.
+- Jika preview endpoint gagal: FE fallback ke mock preview pada mode dummy.
+
+#### F. Timeout & Retry Policy (Current FE Behavior)
+
+- Axios timeout global: `8000ms` (`src/services/api.js`).
+- Stream chat timeout: `12000ms` (`src/services/streamChat.js`).
+- Poll interval status: `1400ms` (`src/services/pollStatus.js`).
+- Retry eksplisit belum dibuat sebagai exponential-backoff; saat ini fallback/mock digunakan untuk menjaga continuity UX.
+
+#### G. Data Shape yang Wajib Konsisten dari BE
+
+- `status` harus salah satu: `pending | generating | completed | failed`.
+- `progress` harus numerik `0-100`.
+- `files[]` wajib punya `path` (string) dan `content` (string).
+- Stream payload direkomendasikan konsisten pakai key `text`.
 
 ## 6. Backend Handoff (Kontrak Integrasi)
 
