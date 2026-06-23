@@ -1,0 +1,72 @@
+﻿import { FiDownload, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
+import JSZip from 'jszip';
+import { useProjectStore } from '../../stores/useProjectStore';
+import PreviewTab from './PreviewTab';
+import CodeTab from './CodeTab';
+import styles from './SplitPanel.module.css';
+
+async function downloadZip(codeFiles) {
+  const zip = new JSZip();
+
+  if (!codeFiles.length) {
+    zip.file('README.txt', 'No generated files yet.');
+  } else {
+    codeFiles.forEach((file) => {
+      zip.file(file.path, file.content || '');
+    });
+  }
+
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = 'cobuilder-generated-code.zip';
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
+function openNewTab() {
+  const next = window.open(window.location.href, '_blank', 'noopener,noreferrer');
+  if (next) next.opener = null;
+}
+
+export default function SplitPanel() {
+  const { activeTab, setActiveTab, setGenerationStatus, tabs, codeFiles } = useProjectStore();
+
+  return (
+    <aside className={styles.panel}>
+      <div className={styles.tabBar}>
+        <div className={styles.tabs}>
+          <button
+            type="button"
+            className={`${styles.tab} ${activeTab === tabs.PREVIEW ? styles.active : ''}`}
+            onClick={() => setActiveTab(tabs.PREVIEW)}
+          >
+            Preview
+          </button>
+          <button
+            type="button"
+            className={`${styles.tab} ${activeTab === tabs.CODE ? styles.active : ''}`}
+            onClick={() => setActiveTab(tabs.CODE)}
+          >
+            Code
+          </button>
+        </div>
+        <div className={styles.actions}>
+          <button type="button" title="Refresh" onClick={() => setGenerationStatus('pending')}>
+            <FiRefreshCw />
+          </button>
+          <button type="button" title="New tab" onClick={openNewTab}>
+            <FiExternalLink />
+          </button>
+          <button type="button" title="ZIP" onClick={() => downloadZip(codeFiles)}>
+            <FiDownload />
+          </button>
+        </div>
+      </div>
+      <div className={styles.body}>{activeTab === tabs.PREVIEW ? <PreviewTab /> : <CodeTab />}</div>
+    </aside>
+  );
+}

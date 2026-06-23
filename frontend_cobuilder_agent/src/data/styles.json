@@ -1,0 +1,20 @@
+{
+  "palettes": [
+    { "id": "bsi-blue", "name": "BSI Blue", "colors": ["#1E40AF", "#3B82F6", "#EFF6FF"] },
+    { "id": "slate-modern", "name": "Slate Modern", "colors": ["#1E293B", "#64748B", "#F8FAFC"] },
+    { "id": "forest-clean", "name": "Forest Clean", "colors": ["#14532D", "#22C55E", "#F0FDF4"] },
+    { "id": "warm-neutral", "name": "Warm Neutral", "colors": ["#7C2D12", "#F97316", "#FFF7ED"] },
+    { "id": "dark-pro", "name": "Dark Pro", "colors": ["#09090B", "#52525B", "#FAFAFA"] }
+  ],
+  "fonts": [
+    { "id": "inter", "name": "Inter", "label": "Modern" },
+    { "id": "geist", "name": "Geist", "label": "Clean" },
+    { "id": "dm-sans", "name": "DM Sans", "label": "Friendly" }
+  ],
+  "layouts": [
+    { "id": "sidebar-nav", "name": "Sidebar Nav", "description": "Fixed left sidebar" },
+    { "id": "top-nav", "name": "Top Nav", "description": "Full-width top bar" },
+    { "id": "minimal", "name": "Minimal", "description": "No persistent nav" }
+  ]
+}
+

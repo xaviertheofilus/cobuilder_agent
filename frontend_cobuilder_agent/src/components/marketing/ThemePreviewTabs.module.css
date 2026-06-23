@@ -1,0 +1,103 @@
+.wrap {
+  width: 100%;
+  max-width: 840px;
+  min-height: 320px;
+  border: 1px solid var(--border-default);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-base) 100%);
+  box-shadow: 0 20px 32px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.topRow {
+  height: 52px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+}
+
+.tab {
+  height: 30px;
+  border: 1px solid var(--border-default);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-2);
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.tab.active {
+  border-color: var(--accent);
+  color: var(--text-1);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+
+.editor {
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.line {
+  min-height: 30px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--bg-surface-2) 86%, transparent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.no {
+  color: var(--text-3);
+  min-width: 14px;
+}
+
+.code {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.kw {
+  color: #4ea5ff;
+}
+
+.fn {
+  color: #9fdb4d;
+}
+
+.str {
+  color: #ffd27b;
+}
+
+.text {
+  color: #dbe6ff;
+}
+
+:root[data-theme='light'] .kw {
+  color: #1d5ec8;
+}
+
+:root[data-theme='light'] .fn {
+  color: #3a7d12;
+}
+
+:root[data-theme='light'] .str {
+  color: #b66b00;
+}
+
+:root[data-theme='light'] .text {
+  color: #233654;
+}
+
+@media (max-width: 1200px) {
+  .wrap {
+    min-height: 280px;
+  }
+}

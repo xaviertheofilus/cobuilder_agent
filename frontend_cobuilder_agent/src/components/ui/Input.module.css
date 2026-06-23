@@ -1,0 +1,61 @@
+.wrapper {
+  width: 100%;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: border-color var(--ease-fast);
+}
+
+.inputWrap:focus-within {
+  border-color: var(--accent);
+}
+
+.input {
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text-1);
+  width: 100%;
+  padding: 11px 12px;
+}
+
+.icon {
+  margin-left: 12px;
+  color: var(--text-2);
+}
+
+.rightElement {
+  margin-right: 8px;
+  display: inline-flex;
+}
+
+.error {
+  border-color: var(--error);
+}
+
+.errorText,
+.hint {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.errorText {
+  color: var(--error);
+}
+
+.hint {
+  color: var(--text-3);
+}
+

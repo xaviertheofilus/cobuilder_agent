@@ -1,0 +1,99 @@
+.wrap {
+  border-top: 0;
+  background: transparent;
+  padding: 6px 12px 10px;
+}
+
+.embedded {
+  border-top: 0;
+  border-radius: 14px;
+  padding: 0;
+}
+
+.composer {
+  border: 1px solid var(--border-default);
+  border-radius: 14px;
+  background: var(--bg-base);
+  padding: 8px 10px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 24px;
+  max-height: 164px;
+  resize: none;
+  overflow-y: auto;
+  border: 0;
+  background: transparent;
+  color: var(--text-1);
+  padding: 0 2px 4px;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.files {
+  margin-top: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fileChip {
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  background: var(--bg-surface-2);
+  color: var(--text-2);
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 7px;
+  margin-top: 6px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.toolBtn {
+  height: 30px;
+  border: 1px solid var(--border-default);
+  border-radius: 9px;
+  background: var(--bg-surface-2);
+  color: var(--text-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.styleSelected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+
+.sendBtn {
+  margin-left: auto;
+  height: 32px;
+  border-radius: 9px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.sendBtn:disabled {
+  opacity: 0.45;
+}

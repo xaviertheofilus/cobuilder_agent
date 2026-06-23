@@ -1,0 +1,62 @@
+.panel {
+  width: 50%;
+  height: 100%;
+  border-left: 1px solid var(--border-subtle);
+  background: var(--bg-base);
+  display: flex;
+  flex-direction: column;
+  min-width: 380px;
+}
+
+.tabBar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  height: 52px;
+  padding: 0 16px;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+.active {
+  color: var(--text-1);
+  border-bottom: 2px solid var(--accent);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  padding-right: 10px;
+}
+
+.actions button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: var(--bg-surface-2);
+  color: var(--text-2);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+}
+
+@media (max-width: 1200px) {
+  .panel {
+    min-width: 320px;
+  }
+}

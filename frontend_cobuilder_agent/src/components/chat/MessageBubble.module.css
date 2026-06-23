@@ -1,0 +1,61 @@
+﻿.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.userRow {
+  justify-content: flex-end;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bubble {
+  max-width: 72%;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.assistantBubble {
+  background: var(--bg-surface);
+}
+
+.userBubble {
+  background: var(--accent-soft);
+  border-color: var(--border-strong);
+}
+
+.files {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.file {
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  font-size: 10px;
+  padding: 2px 8px;
+  color: var(--text-2);
+}
+
+.time {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-3);
+}

@@ -1,0 +1,68 @@
+:root {
+  --bg-base: #171a1f;
+  --bg-surface: #23272f;
+  --bg-surface-2: #2d323b;
+  --bg-overlay: rgba(23, 26, 31, 0.84);
+
+  --border-subtle: #3a404b;
+  --border-default: #495363;
+  --border-strong: #5b667a;
+
+  --accent: #2f7cf8;
+  --accent-hover: #1d68df;
+  --accent-soft: rgba(47, 124, 248, 0.16);
+  --accent-soft-hover: rgba(47, 124, 248, 0.26);
+
+  --success: #1ca97a;
+  --warning: #d19a2d;
+  --error: #db5d5d;
+
+  --text-1: #eef3ff;
+  --text-2: #b4c0dc;
+  --text-3: #8d99b2;
+
+  --font-sans: 'Instrument Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --ease-fast: 120ms ease;
+  --ease-default: 200ms ease;
+  --ease-slow: 350ms ease;
+}
+
+:root[data-theme='light'] {
+  --bg-base: #f8f3ea;
+  --bg-surface: #fffaf1;
+  --bg-surface-2: #f5ecdd;
+  --bg-overlay: rgba(248, 243, 234, 0.92);
+
+  --border-subtle: #dfd2be;
+  --border-default: #ccbfae;
+  --border-strong: #b4a48f;
+
+  --accent: #2f70de;
+  --accent-hover: #1f5abf;
+  --accent-soft: rgba(47, 112, 222, 0.12);
+  --accent-soft-hover: rgba(47, 112, 222, 0.2);
+
+  --text-1: #1f2e46;
+  --text-2: #556783;
+  --text-3: #7b8ca8;
+}

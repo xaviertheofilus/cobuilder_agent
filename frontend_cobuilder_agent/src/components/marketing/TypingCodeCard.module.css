@@ -1,0 +1,117 @@
+﻿.card {
+  width: min(640px, 82%);
+  border: 1px solid var(--border-default);
+  border-radius: 20px;
+  background:
+    linear-gradient(165deg, color-mix(in oklab, var(--bg-surface) 95%, transparent) 0%, color-mix(in oklab, var(--bg-base) 88%, transparent) 100%);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26), inset 0 1px 0 color-mix(in oklab, var(--text-1) 10%, transparent);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -20% 0 auto;
+  height: 120px;
+  background: radial-gradient(48% 90% at 50% 100%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 74%);
+  pointer-events: none;
+}
+
+.topRow {
+  height: 46px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+}
+
+.topRow span {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+
+.topRow small {
+  margin-left: auto;
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  color: var(--text-2);
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+}
+
+.codeArea {
+  padding: 16px 20px;
+  min-height: 188px;
+}
+
+.line {
+  min-height: 24px;
+  color: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.caret {
+  color: var(--accent);
+  margin-left: 2px;
+  animation: blink 0.9s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.tokenKeyword {
+  color: #65b0ff;
+}
+
+.tokenFn {
+  color: #9adf61;
+}
+
+.tokenString {
+  color: #ffd27b;
+}
+
+.tokenNumber {
+  color: #d79bff;
+}
+
+.tokenComment {
+  color: #70a97a;
+}
+
+.tokenPlain {
+  color: var(--text-1);
+}
+
+:root[data-theme='light'] .tokenKeyword {
+  color: #1f62cd;
+}
+
+:root[data-theme='light'] .tokenFn {
+  color: #2b7f1f;
+}
+
+:root[data-theme='light'] .tokenString {
+  color: #a76300;
+}
+
+:root[data-theme='light'] .tokenNumber {
+  color: #7e2abb;
+}
+
+:root[data-theme='light'] .tokenComment {
+  color: #2d7f3f;
+}
+

@@ -1,0 +1,29 @@
+.box {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  padding: 12px;
+  max-width: 72%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-2);
+  margin-bottom: 8px;
+}
+
+.track {
+  height: 8px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--accent);
+  transition: width var(--ease-default);
+}
+

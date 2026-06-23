@@ -1,0 +1,34 @@
+.tree {
+  width: 220px;
+  border-right: 1px solid var(--border-subtle);
+  overflow-y: auto;
+}
+
+.folder,
+.file {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.activeFile {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.empty {
+  width: 220px;
+  padding: 14px;
+  font-size: 12px;
+  color: var(--text-3);
+  border-right: 1px solid var(--border-subtle);
+}
+

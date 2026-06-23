@@ -1,0 +1,182 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BSI CoBuilder - Feature Index</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0d1117;
+        --surface: #161b22;
+        --text: #e6edf3;
+        --muted: #9da7b3;
+        --line: #2d333b;
+        --accent: #2f81f7;
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f6f8fa;
+          --surface: #ffffff;
+          --text: #1f2328;
+          --muted: #59636e;
+          --line: #d0d7de;
+          --accent: #0969da;
+        }
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font: 14px/1.5 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      h1 { margin: 0 0 8px; font-size: 28px; }
+      p { margin: 0 0 16px; color: var(--muted); }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px;
+      }
+
+      .card h2 { margin: 0 0 6px; font-size: 16px; }
+      .card p { margin: 0 0 10px; font-size: 13px; }
+
+      .btn {
+        display: inline-block;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 10px;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      th { color: var(--muted); font-weight: 600; }
+      tr:last-child td { border-bottom: 0; }
+      code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>BSI CoBuilder Agent - Feature Index</h1>
+      <p>Single HTML reference untuk semua page dan fitur utama FE.</p>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Landing</h2>
+          <p>Overview platform, CTA login/register, section How it Works, FAQ scroll.</p>
+          <a class="btn" href="/" target="_blank" rel="noopener noreferrer">Open /</a>
+        </article>
+
+        <article class="card">
+          <h2>Login</h2>
+          <p>Auth mock, theme toggle, logo klik balik ke home, code animation panel.</p>
+          <a class="btn" href="/login" target="_blank" rel="noopener noreferrer">Open /login</a>
+        </article>
+
+        <article class="card">
+          <h2>Register</h2>
+          <p>Create account mock, password strength, logo klik balik ke home.</p>
+          <a class="btn" href="/register" target="_blank" rel="noopener noreferrer">Open /register</a>
+        </article>
+
+        <article class="card">
+          <h2>Dashboard</h2>
+          <p>Chat builder, style picker, project sidebar, split preview/code, ZIP export.</p>
+          <a class="btn" href="/dashboard" target="_blank" rel="noopener noreferrer">Open /dashboard</a>
+        </article>
+      </section>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Domain</th>
+            <th>Feature</th>
+            <th>Source</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Auth</td>
+            <td>Mock login + protected route</td>
+            <td><code>src/stores/useAuthStore.js</code>, <code>src/router/ProtectedRoute.jsx</code></td>
+            <td>Ready (mock)</td>
+          </tr>
+          <tr>
+            <td>Prompting</td>
+            <td>Chat composer, attachments, style selector, dynamic textarea</td>
+            <td><code>src/components/chat/ChatInput.jsx</code></td>
+            <td>Ready</td>
+          </tr>
+          <tr>
+            <td>Streaming</td>
+            <td>SSE-like stream + fallback simulation</td>
+            <td><code>src/services/streamChat.js</code></td>
+            <td>Ready (BE optional)</td>
+          </tr>
+          <tr>
+            <td>Generation</td>
+            <td>Status polling + preview/code hydration</td>
+            <td><code>src/services/pollStatus.js</code>, <code>src/hooks/usePoller.js</code></td>
+            <td>Ready</td>
+          </tr>
+          <tr>
+            <td>Code/Preview</td>
+            <td>Split panel, code highlight, preview iframe, ZIP download</td>
+            <td><code>src/components/split-panel/*</code></td>
+            <td>Ready</td>
+          </tr>
+          <tr>
+            <td>Project Mgmt</td>
+            <td>Create/rename/star/delete, collapse sidebar, quick actions</td>
+            <td><code>src/components/layout/Sidebar.jsx</code></td>
+            <td>Ready</td>
+          </tr>
+          <tr>
+            <td>Theme</td>
+            <td>Dark/light + logo swap</td>
+            <td><code>src/stores/useAuthStore.js</code></td>
+            <td>Ready</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
