@@ -9,7 +9,7 @@ Frontend aplikasi CoBuilder Agent BSI (React + Vite) untuk alur landing -> auth 
 - JSZip (download ZIP), Highlight.js (code view)
 
 ```bash
-cd FE/frontend_cobuilder_agent
+cd frontend_cobuilder_agent
 npm install
 npm run dev
 ```
@@ -21,7 +21,6 @@ Environment:
 ```env
 VITE_API_BASE_URL=http://localhost:8000
 ```
-
 
 ## 1.1 Menjalankan via Docker Compose
 
@@ -54,6 +53,7 @@ Catatan:
 
 - Docker compose memakai `Dockerfile` multi-stage (build Vite + serve Nginx).
 - Routing SPA sudah ditangani oleh `nginx.conf` (`try_files ... /index.html`).
+
 ## 2. Scope Saat Ini (Production-ready FE + Mock-safe)
 
 - FE production pattern: modular components, store terpusat, services terpisah.
@@ -96,18 +96,18 @@ Sumber implementasi FE:
 
 ### 5.1 Matrix Endpoint Per Fitur (Untuk Tim BE)
 
-| Feature FE | Method | Endpoint | Auth | Request Minimum | Response Minimum |
-|---|---|---|---|---|---|
-| Login | `POST` | `/auth/login` | No | `{ "email": "user@bsi.co.id", "password": "***" }` | `{ "token": "jwt", "user": { "name": "User", "email": "user@bsi.co.id" } }` |
-| List project | `GET` | `/projects` | Yes | - | `{ "items": [{ "id": "p1", "name": "Project", "status": "idle" }] }` atau array langsung |
-| Create project | `POST` | `/projects` | Yes | `{ "name": "Untitled Project" }` | `{ "id": "p99", "name": "Untitled Project", "status": "idle" }` |
-| Get project detail | `GET` | `/projects/:id` | Yes | - | `{ "id": "p1", "name": "Project", "status": "idle" }` |
-| Generate app | `POST` | `/projects/:id/generate` | Yes | `{ "prompt": "...", "style": {...}, "attachments": [] }` | `{ "jobId": "g-123", "status": "pending" }` |
-| Poll generation status | `GET` | `/projects/:id/status` | Yes | - | `{ "status": "pending|generating|completed|failed", "progress": 0 }` |
-| Ambil preview + code | `GET` | `/projects/:id/preview` | Yes | - | `{ "url": "https://...", "files": [{ "path": "src/App.jsx", "content": "..." }] }` |
-| Chat streaming | `POST` | `/projects/:id/messages` | Yes | `{ "content": "user prompt" }` | Stream `data:` chunk + `data: [DONE]` |
-| Apply edit prompt | `POST` | `/projects/:id/edits` | Yes | `{ "instruction": "ubah ..." }` | `{ "status": "accepted" }` atau payload hasil edit |
-| Version list | `GET` | `/projects/:id/versions` | Yes | - | `{ "items": [{ "id": "v1", "createdAt": "..." }] }` |
+| Feature FE             | Method | Endpoint                 | Auth | Request Minimum                                          | Response Minimum                                                                         |
+| ---------------------- | ------ | ------------------------ | ---- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------- | --------- | ------------------------- |
+| Login                  | `POST` | `/auth/login`            | No   | `{ "email": "user@bsi.co.id", "password": "***" }`       | `{ "token": "jwt", "user": { "name": "User", "email": "user@bsi.co.id" } }`              |
+| List project           | `GET`  | `/projects`              | Yes  | -                                                        | `{ "items": [{ "id": "p1", "name": "Project", "status": "idle" }] }` atau array langsung |
+| Create project         | `POST` | `/projects`              | Yes  | `{ "name": "Untitled Project" }`                         | `{ "id": "p99", "name": "Untitled Project", "status": "idle" }`                          |
+| Get project detail     | `GET`  | `/projects/:id`          | Yes  | -                                                        | `{ "id": "p1", "name": "Project", "status": "idle" }`                                    |
+| Generate app           | `POST` | `/projects/:id/generate` | Yes  | `{ "prompt": "...", "style": {...}, "attachments": [] }` | `{ "jobId": "g-123", "status": "pending" }`                                              |
+| Poll generation status | `GET`  | `/projects/:id/status`   | Yes  | -                                                        | `{ "status": "pending                                                                    | generating | completed | failed", "progress": 0 }` |
+| Ambil preview + code   | `GET`  | `/projects/:id/preview`  | Yes  | -                                                        | `{ "url": "https://...", "files": [{ "path": "src/App.jsx", "content": "..." }] }`       |
+| Chat streaming         | `POST` | `/projects/:id/messages` | Yes  | `{ "content": "user prompt" }`                           | Stream `data:` chunk + `data: [DONE]`                                                    |
+| Apply edit prompt      | `POST` | `/projects/:id/edits`    | Yes  | `{ "instruction": "ubah ..." }`                          | `{ "status": "accepted" }` atau payload hasil edit                                       |
+| Version list           | `GET`  | `/projects/:id/versions` | Yes  | -                                                        | `{ "items": [{ "id": "v1", "createdAt": "..." }] }`                                      |
 
 ### 5.2 Header & Security Contract
 
@@ -269,4 +269,3 @@ Bisa diakses saat dev via:
 - Tambahkan observability (request-id, log correlation, Sentry).
 - Tambahkan test otomatis (unit + integration + e2e browser).
 - Tambahkan schema validation response API (zod/io-ts) sebelum commit ke store.
-

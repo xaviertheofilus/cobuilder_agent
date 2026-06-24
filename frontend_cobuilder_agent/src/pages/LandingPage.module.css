@@ -1,35 +1,58 @@
 ﻿.page {
   min-height: 100vh;
-  background: radial-gradient(circle at 75% 50%, var(--accent-soft), transparent 28%), var(--bg-base);
+  background:
+    radial-gradient(circle at 75% 50%, var(--accent-soft), transparent 28%),
+    var(--bg-base);
   color: var(--text-1);
   position: relative;
   overflow: hidden;
 }
 
 .page::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
-  background-image: radial-gradient(var(--border-default) 1.1px, transparent 1.1px);
+  background-image: radial-gradient(
+    var(--border-default) 1.1px,
+    transparent 1.1px
+  );
   background-size: 18px 18px;
-  opacity: 0.46;
+  opacity: 0.6;
   pointer-events: none;
+  mask-image:
+    radial-gradient(ellipse 52% 52% at 18% 34%, transparent 15%, black 62%),
+    radial-gradient(ellipse 48% 48% at 80% 24%, transparent 15%, black 58%),
+    radial-gradient(ellipse 56% 56% at 62% 78%, transparent 15%, black 64%),
+    radial-gradient(ellipse 56% 56% at 1% 78%, transparent 15%, black 64%);
+  mask-composite: intersect;
 }
 
 .page::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(34% 34% at 18% 34%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 72%),
-    radial-gradient(40% 40% at 80% 24%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 74%),
-    radial-gradient(46% 46% at 62% 78%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 76%);
+    radial-gradient(
+      34% 34% at 18% 34%,
+      color-mix(in oklab, var(--accent) 16%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      40% 40% at 80% 24%,
+      color-mix(in oklab, var(--accent) 14%, transparent),
+      transparent 74%
+    ),
+    radial-gradient(
+      46% 46% at 62% 78%,
+      color-mix(in oklab, var(--accent) 12%, transparent),
+      transparent 76%
+    );
   animation: landingGlowMove 15s ease-in-out infinite alternate;
 }
 
-:root[data-theme='light'] .page::before {
+:root[data-theme="light"] .page::before {
   opacity: 0.58;
 }
 
@@ -37,7 +60,7 @@
   position: sticky;
   top: 0;
   z-index: 9;
-  height: 74px;
+  height: 50px;
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
@@ -48,7 +71,7 @@
 }
 
 .logo {
-  height: 44px;
+  height: 40px;
   width: auto;
   object-fit: contain;
 }
@@ -59,7 +82,7 @@
   background: var(--bg-surface);
   color: var(--text-2);
   border-radius: 10px;
-  height: 34px;
+  height: 30px;
   padding: 0 12px;
 }
 
@@ -75,7 +98,7 @@
 
 .navAction {
   color: var(--text-1);
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .heroSection {
@@ -104,10 +127,20 @@
 
 .heroInner h1 {
   margin: 16px 0;
-  font-size: clamp(44px, 5vw, 78px);
+  font-size: clamp(36px, 6vw, 64px);
   line-height: 0.95;
   max-width: 640px;
   font-family: var(--font-display);
+}
+
+.heroInner span {
+  margin: 16px 0;
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 0.95;
+  max-width: 640px;
+  font-family: var(--font-display);
+  color: #c98a66;
+  font-style: italic;
 }
 
 .heroInner p {
@@ -115,19 +148,21 @@
   color: var(--text-2);
   font-size: 16px;
   line-height: 1.6;
+  font-family: var(--font-sans);
 }
 
 .ctaRow {
   margin-top: 24px;
   display: flex;
   gap: 12px;
+  font-family: var(--font-sans);
 }
 
 .primary,
 .secondary {
   height: 46px;
   padding: 0 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 16px;
   font-weight: 600;
 }

@@ -1,8 +1,8 @@
 :root {
-  --bg-base: #171a1f;
+  --bg-base: #11141b;
   --bg-surface: #23272f;
   --bg-surface-2: #2d323b;
-  --bg-overlay: rgba(23, 26, 31, 0.84);
+  --bg-overlay: #1b1f29;
 
   --border-subtle: #3a404b;
   --border-default: #495363;
@@ -10,20 +10,20 @@
 
   --accent: #2f7cf8;
   --accent-hover: #1d68df;
-  --accent-soft: rgba(47, 124, 248, 0.16);
+  --accent-soft: rgba(78, 143, 248, 0.16);
   --accent-soft-hover: rgba(47, 124, 248, 0.26);
 
   --success: #1ca97a;
   --warning: #d19a2d;
   --error: #db5d5d;
 
-  --text-1: #eef3ff;
-  --text-2: #b4c0dc;
-  --text-3: #8d99b2;
+  --text-1: #edeae3;
+  --text-2: #f2e8df;
+  --text-3: #869295;
 
-  --font-sans: 'Instrument Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-sans: "Plus Jakarta Sans";
+  --font-display: Georgia, serif, "Instrument Serif";
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", monospace;
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -47,7 +47,7 @@
   --ease-slow: 350ms ease;
 }
 
-:root[data-theme='light'] {
+:root[data-theme="light"] {
   --bg-base: #f8f3ea;
   --bg-surface: #fffaf1;
   --bg-surface-2: #f5ecdd;
@@ -57,12 +57,12 @@
   --border-default: #ccbfae;
   --border-strong: #b4a48f;
 
-  --accent: #2f70de;
-  --accent-hover: #1f5abf;
+  --accent: #4a63c9;
+  --accent-hover: rgb(29, 74, 146);
   --accent-soft: rgba(47, 112, 222, 0.12);
   --accent-soft-hover: rgba(47, 112, 222, 0.2);
 
-  --text-1: #1f2e46;
-  --text-2: #556783;
+  --text-1: #243644;
+  --text-2: #6b6a75;
   --text-3: #7b8ca8;
 }
