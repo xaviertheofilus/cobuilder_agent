@@ -1,25 +1,34 @@
-﻿import { useNavigate } from 'react-router-dom';
-import { FiBookOpen, FiCpu, FiMessageCircle, FiMoon } from 'react-icons/fi';
-import { useAuthStore } from '../stores/useAuthStore';
-import ThemePreviewTabs from '../components/marketing/ThemePreviewTabs';
-import styles from './LandingPage.module.css';
+﻿import { useNavigate } from "react-router-dom";
+import { FiBookOpen, FiCpu, FiMessageCircle, FiMoon } from "react-icons/fi";
+import { useAuthStore } from "../stores/useAuthStore";
+import ThemePreviewTabs from "../components/marketing/ThemePreviewTabs";
+import styles from "./LandingPage.module.css";
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const { toggleTheme, theme } = useAuthStore();
-  const logo = theme === 'dark' ? '/logo_white.png' : '/logo_black.png';
+  const logo = theme === "dark" ? "/logo_white.png" : "/logo_black.png";
 
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <div className={styles.page}>
       <header className={styles.navbar}>
         <img src={logo} alt="BSI CoBuilder" className={styles.logo} />
         <div className={styles.rightActions}>
-          <button type="button" className={styles.iconBtn} onClick={toggleTheme}>
+          <button
+            type="button"
+            className={styles.iconBtn}
+            onClick={toggleTheme}
+          >
             <FiMoon />
           </button>
-          <button type="button" className={styles.navAction} onClick={() => scrollTo('faq')}>
+          <button
+            type="button"
+            className={styles.navAction}
+            onClick={() => scrollTo("faq")}
+          >
             Readmore
           </button>
         </div>
@@ -27,19 +36,27 @@ export default function LandingPage() {
 
       <main className={styles.heroSection}>
         <div className={styles.heroInner}>
-          <div className={styles.kicker}>
-            <span>01</span> // PLATFORM OVERVIEW
-          </div>
-          <h1>Build Internal Apps With a Conversation.</h1>
+          <h1>
+            Build <span>Internal Apps</span> With a Conversation.
+          </h1>
           <p>
-            CoBuilder Agent BSI transforms natural language into deployable, enterprise-grade
-            internal tools. Streamline your workflow, eliminate boilerplate, and focus on business logic.
+            CoBuilder Agent BSI transforms natural language into deployable,
+            enterprise-grade internal tools. Streamline your workflow, eliminate
+            boilerplate, and focus on business logic.
           </p>
           <div className={styles.ctaRow}>
-            <button type="button" className={styles.primary} onClick={() => navigate('/login')}>
+            <button
+              type="button"
+              className={styles.primary}
+              onClick={() => navigate("/login")}
+            >
               Start Building
             </button>
-            <button type="button" className={styles.secondary} onClick={() => scrollTo('steps')}>
+            <button
+              type="button"
+              className={styles.secondary}
+              onClick={() => scrollTo("steps")}
+            >
               <FiBookOpen /> How it Works
             </button>
           </div>
@@ -51,9 +68,7 @@ export default function LandingPage() {
       </main>
 
       <section className={styles.stepsSection} id="steps">
-        <div className={styles.stepKicker}>
-          <span>02</span> // HOW IT WORKS
-        </div>
+        <div className={styles.stepKicker}>HOW IT WORKS</div>
         <h2>From idea to internal app in three steps.</h2>
         <div className={styles.stepGrid}>
           <article>
@@ -70,7 +85,10 @@ export default function LandingPage() {
               <FiCpu />
             </div>
             <h3>Generate</h3>
-            <p>CoBuilder scaffolds the UI, wires data layer, and assembles preview.</p>
+            <p>
+              CoBuilder scaffolds the UI, wires data layer, and assembles
+              preview.
+            </p>
           </article>
           <article>
             <div className={styles.num}>03</div>
@@ -84,9 +102,7 @@ export default function LandingPage() {
       </section>
 
       <section className={styles.faqSection} id="faq">
-        <div className={styles.stepKicker}>
-          <span>03</span> // READMORE
-        </div>
+        <div className={styles.stepKicker}>READMORE</div>
         <h2>Readmore - FAQ</h2>
         <p className={styles.comingSoon}>Coming soon.</p>
       </section>
@@ -97,4 +113,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
