@@ -1,4 +1,6 @@
-﻿const MOCK_RESPONSE =
+import { resolveApiBaseUrl } from './runtimeConfig';
+
+const MOCK_RESPONSE =
   'Done. I drafted the first version based on your prompt. You can open Preview for UI validation and Code tab for generated files. Tell me the next revision and I will refine the workflow, table schema, and role permissions.';
 
 function sleep(ms) {
@@ -46,7 +48,7 @@ function handleSSELine(line, onChunk, onDone) {
 }
 
 export async function streamChat(projectId, message, onChunk, onDone, onError) {
-  const BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+  const BASE = resolveApiBaseUrl();
   const token = readToken();
 
   try {

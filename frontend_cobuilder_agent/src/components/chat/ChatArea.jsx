@@ -1,5 +1,4 @@
-﻿import { FiBriefcase, FiFileText, FiShield, FiUsers } from 'react-icons/fi';
-import { MdSupportAgent } from 'react-icons/md';
+import { FiBriefcase, FiFileText, FiShield, FiUsers } from 'react-icons/fi';
 import { useProjectStore } from '../../stores/useProjectStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import MessageBubble from './MessageBubble';
@@ -50,12 +49,6 @@ const templates = [
   },
 ];
 
-function statusText(phase) {
-  if (phase === 'running') return 'Agent is running...';
-  if (phase === 'cooking') return 'Agent is cooking...';
-  return 'Agent is waiting...';
-}
-
 export default function ChatArea() {
   const {
     messages,
@@ -65,7 +58,6 @@ export default function ChatArea() {
     isGenerating,
     isStylePickerOpen,
     setDraftPrompt,
-    agentPhase,
   } = useProjectStore();
   const { user } = useAuthStore();
 
@@ -82,10 +74,6 @@ export default function ChatArea() {
           <p>Hi {user?.name || 'Admin'}, describe the internal app you want to build.</p>
 
           <div className={styles.heroComposer}>
-            <div className={styles.agentStatus}>
-              <MdSupportAgent />
-              <span>{statusText(agentPhase)}</span>
-            </div>
             <ChatInput embedded />
           </div>
 
@@ -107,9 +95,6 @@ export default function ChatArea() {
         </div>
       ) : (
         <div className={styles.thread}>
-          <div className={styles.threadStatus}>
-            <MdSupportAgent /> {statusText(agentPhase)}
-          </div>
           {list.map((message) => {
             if (message.type === 'generating') return <GeneratingStatus key={message.id} />;
             return <MessageBubble key={message.id} message={message} />;
@@ -121,4 +106,3 @@ export default function ChatArea() {
     </div>
   );
 }
-

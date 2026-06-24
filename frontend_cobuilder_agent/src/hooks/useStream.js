@@ -12,12 +12,11 @@ export function useStream() {
     setIsGenerating,
     setGenerationStatus,
     setGenerationProgress,
-    setPanelOpen,
-    setActiveTab,
     setAgentPhase,
     clearComposer,
     setSidebarCollapsed,
-    tabs,
+    setStylePickerOpen,
+    markProjectRan,
     agentPhases,
   } = useProjectStore();
 
@@ -31,6 +30,11 @@ export function useStream() {
       attachments,
     });
 
+    // Clear prompt immediately after submit so composer never shows stale text while streaming.
+    clearComposer();
+
+    markProjectRan(activeProjectId);
+    setStylePickerOpen(false);
     setSidebarCollapsed(true);
     setIsStreaming(true);
     setStreamingText('');
@@ -45,9 +49,6 @@ export function useStream() {
         setIsGenerating(true);
         setGenerationStatus('pending');
         setGenerationProgress(0);
-        setPanelOpen(true);
-        setActiveTab(tabs.PREVIEW);
-        clearComposer();
       },
       () => {
         finalizeStream();

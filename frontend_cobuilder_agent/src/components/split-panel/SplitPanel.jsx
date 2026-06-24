@@ -1,8 +1,8 @@
-﻿import { FiDownload, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
+import { FiDownload, FiExternalLink, FiRefreshCw, FiX } from 'react-icons/fi';
 import JSZip from 'jszip';
 import { useProjectStore } from '../../stores/useProjectStore';
+import { resolvePreviewLabel } from '../../services/runtimeConfig';
 import PreviewTab from './PreviewTab';
-import CodeTab from './CodeTab';
 import styles from './SplitPanel.module.css';
 
 async function downloadZip(codeFiles) {
@@ -32,30 +32,19 @@ function openNewTab() {
   if (next) next.opener = null;
 }
 
-export default function SplitPanel() {
-  const { activeTab, setActiveTab, setGenerationStatus, tabs, codeFiles } = useProjectStore();
+export default function SplitPanel({ widthPercent = 48 }) {
+  const { codeFiles, setPanelOpen, previewUrl, bumpPreviewFrameVersion } = useProjectStore();
+  const previewLabel = resolvePreviewLabel(previewUrl);
 
   return (
-    <aside className={styles.panel}>
+    <aside className={styles.panel} style={{ flex: `0 0 ${widthPercent}%` }}>
       <div className={styles.tabBar}>
-        <div className={styles.tabs}>
-          <button
-            type="button"
-            className={`${styles.tab} ${activeTab === tabs.PREVIEW ? styles.active : ''}`}
-            onClick={() => setActiveTab(tabs.PREVIEW)}
-          >
-            Preview
-          </button>
-          <button
-            type="button"
-            className={`${styles.tab} ${activeTab === tabs.CODE ? styles.active : ''}`}
-            onClick={() => setActiveTab(tabs.CODE)}
-          >
-            Code
-          </button>
+        <div className={styles.hostWrap}>
+          <div className={styles.lights}><span /><span /><span /></div>
+          <div className={styles.hostLabel}>{previewLabel}</div>
         </div>
         <div className={styles.actions}>
-          <button type="button" title="Refresh" onClick={() => setGenerationStatus('pending')}>
+          <button type="button" title="Refresh" onClick={bumpPreviewFrameVersion}>
             <FiRefreshCw />
           </button>
           <button type="button" title="New tab" onClick={openNewTab}>
@@ -64,9 +53,14 @@ export default function SplitPanel() {
           <button type="button" title="ZIP" onClick={() => downloadZip(codeFiles)}>
             <FiDownload />
           </button>
+          <button type="button" title="Exit" onClick={() => setPanelOpen(false)}>
+            <FiX />
+          </button>
         </div>
       </div>
-      <div className={styles.body}>{activeTab === tabs.PREVIEW ? <PreviewTab /> : <CodeTab />}</div>
+      <div className={styles.body}>
+        <PreviewTab />
+      </div>
     </aside>
   );
 }

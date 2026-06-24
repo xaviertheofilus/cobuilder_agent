@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { resolveApiBaseUrl } from './runtimeConfig';
 
-const BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-
-const api = axios.create({ baseURL: BASE, timeout: 8000 });
+const api = axios.create({
+  baseURL: resolveApiBaseUrl(),
+  timeout: 8000,
+});
 
 api.interceptors.request.use((config) => {
   const raw = localStorage.getItem('cb-auth');
@@ -30,7 +32,11 @@ export const projectsAPI = {
   preview: (id) => api.get(`/projects/${id}/preview`),
   edit: (id, payload) => api.post(`/projects/${id}/edits`, payload),
   versions: (id) => api.get(`/projects/${id}/versions`),
+  followupQuestions: (id, payload) => api.post(`/projects/${id}/followup-questions`, payload),
+};
+
+export const aiAssistantAPI = {
+  clarify: (id, payload) => api.post(`/projects/${id}/clarify`, payload),
 };
 
 export default api;
-

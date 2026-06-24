@@ -10,9 +10,6 @@ export default function TopBar() {
     renameProject,
     messages,
     setPanelOpen,
-    setActiveTab,
-    tabs,
-    activeTab,
     isPanelOpen,
   } = useProjectStore();
   const { toggleTheme } = useAuthStore();
@@ -50,23 +47,10 @@ export default function TopBar() {
           <>
             <button
               type="button"
-              className={`${styles.modeBtn} ${isPanelOpen && activeTab === tabs.PREVIEW ? styles.active : ''}`}
-              onClick={() => {
-                setPanelOpen(true);
-                setActiveTab(tabs.PREVIEW);
-              }}
+              className={`${styles.modeBtn} ${isPanelOpen ? styles.active : ''}`}
+              onClick={() => setPanelOpen(!isPanelOpen)}
             >
               Preview
-            </button>
-            <button
-              type="button"
-              className={`${styles.modeBtn} ${isPanelOpen && activeTab === tabs.CODE ? styles.active : ''}`}
-              onClick={() => {
-                setPanelOpen(true);
-                setActiveTab(tabs.CODE);
-              }}
-            >
-              Code
             </button>
             <button type="button" className={styles.deployBtn}>
               <FiSend /> Req Deploy

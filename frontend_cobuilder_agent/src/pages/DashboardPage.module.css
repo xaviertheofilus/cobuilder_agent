@@ -16,6 +16,8 @@
   flex: 1;
   display: flex;
   overflow: hidden;
+  min-width: 0;
+  position: relative;
 }
 
 .chatCol {
@@ -23,15 +25,34 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: flex-basis var(--ease-default);
+  min-width: 0;
 }
 
-.chatColShrink {
-  flex: 0 0 50%;
+.splitter {
+  width: 10px;
+  flex: 0 0 10px;
+  cursor: col-resize;
+  position: relative;
+  background: transparent;
 }
 
-@media (max-width: 1200px) {
-  .chatColShrink {
-    flex-basis: 52%;
+.splitter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--border-subtle);
+}
+
+.splitter:hover::before {
+  background: var(--accent);
+}
+
+@media (max-width: 980px) {
+  .splitter {
+    display: none;
   }
 }

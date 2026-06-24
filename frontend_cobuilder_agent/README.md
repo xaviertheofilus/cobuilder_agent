@@ -20,6 +20,8 @@ Environment:
 
 ```env
 VITE_API_BASE_URL=http://localhost:8000
+# optional: base URL host preview dari backend
+VITE_PREVIEW_BASE_URL=http://localhost:8000
 ```
 
 
@@ -82,7 +84,7 @@ Catatan UI behavior terbaru:
 4. User kirim prompt -> message user tersimpan -> stream assistant berjalan.
 5. Setelah stream selesai -> status generate aktif -> poll status project.
 6. Saat completed -> preview URL + code files ditampilkan di split panel.
-7. User bisa `Preview`, `Code`, `New tab`, `ZIP download`.
+7. User tetap di chat setelah submit. Split panel hanya terbuka saat tombol `Preview` di navbar diklik, lalu user bisa `Refresh`, `New tab`, `ZIP download`.
 
 ## 5. API Komunikasi FE <-> BE (Daftar Fitur Lengkap)
 
@@ -218,13 +220,14 @@ Status code yang disarankan:
 #### B. Generate App Flow
 
 1. User submit prompt dari chat composer.
-2. FE stream request ke `POST /projects/:id/messages`.
-3. BE kirim chunk bertahap (`data: {"text":"..."}`) sampai `data: [DONE]`.
-4. FE finalisasi message assistant -> set state generating (`pending`).
-5. FE mulai polling `GET /projects/:id/status` berkala.
-6. Jika status `completed`, FE call `GET /projects/:id/preview`.
-7. BE return `url` preview + `files[]`.
-8. FE render tab Preview dan Code + aktifkan fitur ZIP.
+2. FE tetap berada di mode chat (split panel tidak auto-open).
+3. FE stream request ke `POST /projects/:id/messages`.
+4. BE kirim chunk bertahap (`data: {"text":"..."}`) sampai `data: [DONE]`.
+5. FE finalisasi message assistant -> set state generating (`pending`).
+6. FE mulai polling `GET /projects/:id/status` berkala.
+7. Jika status `completed`, FE call `GET /projects/:id/preview`.
+8. BE return `url` preview + `files[]`.
+9. FE render data preview/files. Panel preview dibuka manual saat user klik `Preview` di navbar.
 
 #### C. Edit / Iteration Flow
 
@@ -325,3 +328,187 @@ Bisa diakses saat dev via:
 - Tambahkan test otomatis (unit + integration + e2e browser).
 - Tambahkan schema validation response API (zod/io-ts) sebelum commit ke store.
 
+
+
+### 5.7 Clarification API (AI Balik Bertanya)
+
+Frontend sekarang mendukung pertanyaan klarifikasi AI (maksimal 3 checkbox suggestion) di atas composer setelah run pertama.
+
+Endpoint integrasi backend:
+
+- `POST /projects/:id/clarify`
+
+Request minimum:
+
+```json
+{
+  "seedText": "latest prompt",
+  "latestMessageId": "m-123"
+}
+```
+
+Response minimum:
+
+```json
+{
+  "title": "Sekarang lo lagi di tahap mana?",
+  "options": [
+    "Baru ada ide, belum ada apa-apa",
+    "Sudah ada konsep / wireframe",
+    "Sudah ada MVP, mau scale"
+  ]
+}
+```
+
+Behavior FE:
+
+1. Maksimal 3 opsi checkbox ditampilkan.
+2. User boleh pilih multiple.
+3. Saat klik `Run`, jawaban pilihan ikut disuntikkan ke payload prompt. Jika user tidak memilih checkbox, user bisa balas langsung dari prompt utama.
+4. Jika endpoint gagal, FE fallback ke mock question set agar UX tetap berjalan.
+
+### 5.8 UI Behavior Update (Preview, Exit, Style)
+
+- Split panel tidak auto-open saat Enter/Run; terbuka hanya saat tombol `Preview` di navbar diklik.
+- Di split panel, label `Preview` bersifat info (non-clickable).
+- Aksi panel: `Refresh`, `New tab`, `ZIP`, `Exit`.
+- Toggle `Style` hanya muncul sebelum run pertama di tiap project (`hasRunOnce=false`), lalu disembunyikan permanen setelah run pertama project tersebut.
+
+### 5.9 Runtime URL Resolution + Iframe Contract
+
+Agar localhost/host dinamis dan integrasi BE konsisten, FE memakai resolver runtime:
+
+- esolveApiBaseUrl() (src/services/runtimeConfig.js):
+  - pakai VITE_API_BASE_URL jika diset,
+  - fallback ke http://localhost:8000 saat app berjalan di host lokal,
+  - fallback ke /api untuk deployment (reverse proxy).
+- esolvePreviewUrl(rawUrl):
+  - menerima URL absolut dari BE,
+  - juga menerima URL relatif dari BE (di-resolve terhadap VITE_PREVIEW_BASE_URL atau API base).
+- esolvePreviewLabel(previewUrl):
+  - label host split panel diambil dari preview URL aktual,
+  - fallback ke window.location.host jika preview belum tersedia.
+
+Kontrak iframe preview:
+
+- Komponen: src/components/split-panel/PreviewTab.jsx.
+- iframe memakai sandbox="allow-scripts allow-same-origin".
+- Tombol Refresh melakukan remount iframe via previewFrameVersion di store (reload nyata, bukan hanya update status).
+
+### 7.5 Kesiapan 500 Concurrent Users (FE Perspective)
+
+- FE bersifat stateless-per-browser; beban 500 user terutama ada di BE (stream endpoint, polling status, preview host).
+- FE request pattern per sesi aktif:
+  - 1 stream request (POST /projects/:id/messages),
+  - polling status periodik (GET /projects/:id/status, interval 1400ms saat generating),
+  - 1 fetch preview (GET /projects/:id/preview) saat completed.
+- Rekomendasi BE agar stabil di 500 user:
+  - rate-limit per token/IP + queue job generation,
+  - gunakan SSE/WebSocket status untuk menurunkan pressure polling,
+  - cache metadata preview + static assets,
+  - observability wajib (equest-id, latency, error-rate, stream-close reason).
+
+Catatan validasi saat ini:
+
+- FE lulus lint, uild, dan 
+pm audit --omit=dev.
+- Uji load 500 user end-to-end perlu dilakukan di environment BE (k6/Gatling/Locust), karena FE lokal tidak merepresentasikan bottleneck server.
+
+## 11. Deep E2E Health Check (Latest Scan)
+
+Scan date: 2026-06-24 (local)
+
+### 11.1 Commands Executed
+
+- `npm run lint` -> pass
+- `npm run build` -> pass
+- `npm audit --omit=dev` -> pass (`0 vulnerabilities`)
+- Dev server route smoke check:
+  - `/` -> 200
+  - `/login` -> 200
+  - `/register` -> 200
+  - `/dashboard` -> 200
+  - `/feature-index.html` -> 200
+
+### 11.2 Network/Backend Reachability During Scan
+
+- `http://127.0.0.1:8000/auth/login` -> unavailable
+- `http://127.0.0.1:8000/projects` -> unavailable
+- `http://127.0.0.1:8000/projects/p0/status` -> unavailable
+
+Kesimpulan: FE healthy dan fallback mock berjalan. Verifikasi integrasi BE real tetap perlu environment BE aktif.
+
+### 11.3 Security Notes (Current FE)
+
+- Token dikirim via header `Authorization: Bearer <token>` dari store persist.
+- `window.open` sudah memakai `noopener,noreferrer`.
+- iframe preview memakai `sandbox="allow-scripts allow-same-origin"`.
+- Dependency audit bersih (`0 vulnerabilities`).
+
+Residual risk yang perlu di-hardening saat production BE live:
+
+- Token storage masih `localStorage` (rentan XSS dibanding HttpOnly cookie).
+- Belum ada CSRF strategy khusus (karena saat ini auth token header, mock flow).
+- Belum ada schema validation runtime untuk seluruh response API (disarankan Zod/io-ts).
+
+### 11.4 Scalability Notes (500 Concurrent Users)
+
+FE side:
+
+- Tidak ada shared in-memory antar user di FE; state per browser session.
+- Beban simultan 500 user terutama akan terjadi di endpoint BE: streaming chat, polling status, preview retrieval.
+
+BE recommendations agar sustain 500 user:
+
+1. Queue job generation (`/generate` dan proses agent) + worker autoscaling.
+2. Ganti polling status intensif ke push model (SSE/WebSocket) bila memungkinkan.
+3. Tambah rate limit + circuit breaker per endpoint streaming.
+4. Tambah observability: trace id, P95/P99 latency, stream disconnect reason.
+
+## 12. Complete Feature + API Documentation Matrix
+
+Daftar ini menyelaraskan seluruh fitur FE yang aktif dengan service/API layer agar tim BE bisa consume tanpa gap.
+
+| FE Feature | UI/Hook Source | Service Source | Endpoint | Method | Request | Response | Fallback Behavior |
+|---|---|---|---|---|---|---|---|
+| Login mock / future real auth | `pages/LoginPage.jsx`, `stores/useAuthStore.js` | `services/api.js` (`authAPI.login`) | `/auth/login` | `POST` | `{ email, password }` | `{ token, user }` | Saat ini login bisa mock (`admin/admin` atau password `bsi123`) |
+| Stream prompt ke agent | `hooks/useStream.js`, `components/chat/ChatInput.jsx` | `services/streamChat.js` | `/projects/:id/messages` | `POST` (stream) | `{ content }` | SSE lines `data: {...}` + `[DONE]` | Jika stream gagal -> `simulateStream` lokal |
+| Polling progress generate | `hooks/usePoller.js` | `services/pollStatus.js`, `services/api.js` | `/projects/:id/status` | `GET` | - | `{ status, progress }` | Jika backend status gagal -> mock status path local |
+| Ambil preview final | `hooks/usePoller.js`, `components/split-panel/PreviewTab.jsx` | `services/api.js` (`projectsAPI.preview`) | `/projects/:id/preview` | `GET` | - | `{ url, files[] }` | Jika gagal -> `getMockPreview()` |
+| Refresh preview iframe | `components/split-panel/SplitPanel.jsx` | store action (`bumpPreviewFrameVersion`) | - | - | - | iframe remount | Reload local iframe tanpa call API baru |
+| ZIP generated code | `components/split-panel/SplitPanel.jsx` | JSZip client-side | - | - | `codeFiles[]` dari store | file `.zip` download | Jika kosong -> `README.txt` placeholder |
+| Clarification question set | `components/chat/ChatInput.jsx` | `services/aiQuestions.js` | `/projects/:id/clarify` | `POST` | `{ seedText, latestMessageId }` | `{ title, options[] }` | Jika gagal -> mock pertanyaan lokal (maks 3 opsi) |
+| Follow-up question service (prepared) | (belum dipakai aktif di UI) | `services/followupQuestions.js` + `services/api.js` | `/projects/:id/followup-questions` | `POST` | `{ prompt }` | `{ question, options[] }` | fallback lokal berdasarkan domain prompt |
+| List/Create/Get/Edit/Versions project | sidebar/topbar flows | `services/api.js` (`projectsAPI`) | `/projects`, `/projects/:id`, `/projects/:id/edits`, `/projects/:id/versions` | `GET/POST` | sesuai endpoint | object/list project/version | sebagian UI masih store-first (mock-safe) |
+
+## 13. Service Inventory (Source of Truth)
+
+Semua file service yang aktif/tersedia:
+
+- `src/services/api.js`
+- `src/services/streamChat.js`
+- `src/services/pollStatus.js`
+- `src/services/aiQuestions.js`
+- `src/services/followupQuestions.js`
+- `src/services/runtimeConfig.js`
+
+Runtime config detail:
+
+- `VITE_API_BASE_URL`: base API utama.
+- `VITE_PREVIEW_BASE_URL`: base resolver untuk preview URL relatif.
+- Fallback API runtime:
+  1. env `VITE_API_BASE_URL` jika ada,
+  2. `http://localhost:8000` bila FE running di host lokal,
+  3. `/api` untuk deployment reverse proxy.
+
+## 14. Button Function Coverage (Runtime)
+
+Ringkas fungsi tombol utama yang aktif saat scan:
+
+- Sidebar collapsed: `Hide`, `New`, `Star`.
+- Topbar dashboard: `Preview`, `Req Deploy` (UI trigger), `Theme toggle`.
+- Split panel: `Refresh`, `New tab`, `ZIP`, `Exit`.
+- Composer: `Attach`, `Style` (hanya first run), `Run`.
+- Clarification card: `3 checkbox options` + `Exit (X)`.
+
+Semua tombol di atas tervalidasi pada compile/lint dan tidak ditemukan crash path statik pada scan kode.

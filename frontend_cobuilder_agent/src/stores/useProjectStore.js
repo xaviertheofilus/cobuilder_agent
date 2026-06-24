@@ -8,6 +8,7 @@ const TABS = {
 const AGENT_PHASE = {
   WAITING: 'waiting',
   RUNNING: 'running',
+  THINKING: 'thinking',
   COOKING: 'cooking',
 };
 
@@ -23,10 +24,10 @@ const today = () => now().slice(0, 10);
 
 export const useProjectStore = create((set, get) => ({
   projects: [
-    { id: 'p0', name: 'Untitled Project', status: 'idle', lastEdited: '2026-06-23', starred: false },
-    { id: 'p1', name: 'HR Leave Portal', status: 'completed', lastEdited: '2025-06-20', starred: false },
-    { id: 'p2', name: 'Asset Tracker', status: 'idle', lastEdited: '2025-06-18', starred: false },
-    { id: 'p3', name: 'Report Generator', status: 'idle', lastEdited: '2025-06-15', starred: false },
+    { id: 'p0', name: 'Untitled Project', status: 'idle', lastEdited: '2026-06-23', starred: false, hasRunOnce: false },
+    { id: 'p1', name: 'HR Leave Portal', status: 'completed', lastEdited: '2025-06-20', starred: false, hasRunOnce: false },
+    { id: 'p2', name: 'Asset Tracker', status: 'idle', lastEdited: '2025-06-18', starred: false, hasRunOnce: false },
+    { id: 'p3', name: 'Report Generator', status: 'idle', lastEdited: '2025-06-15', starred: false, hasRunOnce: false },
   ],
   activeProjectId: 'p0',
   messages: initialMessages,
@@ -36,6 +37,7 @@ export const useProjectStore = create((set, get) => ({
   generationStatus: 'idle',
   generationProgress: 0,
   previewUrl: null,
+  previewFrameVersion: 0,
   codeFiles: [],
   activeCodeFile: null,
   isPanelOpen: false,
@@ -50,7 +52,7 @@ export const useProjectStore = create((set, get) => ({
   createProject: () => {
     const id = crypto.randomUUID();
     set((state) => ({
-      projects: [{ id, name: 'Untitled Project', status: 'idle', lastEdited: today(), starred: false }, ...state.projects],
+      projects: [{ id, name: 'Untitled Project', status: 'idle', lastEdited: today(), starred: false, hasRunOnce: false }, ...state.projects],
       messages: { ...state.messages, [id]: [] },
       activeProjectId: id,
       isStylePickerOpen: false,
@@ -91,6 +93,18 @@ export const useProjectStore = create((set, get) => ({
           ? {
               ...project,
               starred: !project.starred,
+              lastEdited: today(),
+            }
+          : project
+      ),
+    })),
+  markProjectRan: (id) =>
+    set((state) => ({
+      projects: state.projects.map((project) =>
+        project.id === id
+          ? {
+              ...project,
+              hasRunOnce: true,
               lastEdited: today(),
             }
           : project
@@ -143,13 +157,14 @@ export const useProjectStore = create((set, get) => ({
       type: 'text',
       content: state.streamingText,
     });
-    set({ streamingText: '', isStreaming: false, agentPhase: AGENT_PHASE.COOKING });
+    set({ streamingText: '', isStreaming: false, agentPhase: AGENT_PHASE.THINKING });
   },
   setIsStreaming: (value) => set({ isStreaming: value }),
   setIsGenerating: (value) => set({ isGenerating: value, agentPhase: value ? AGENT_PHASE.COOKING : AGENT_PHASE.WAITING }),
   setGenerationStatus: (status) => set({ generationStatus: status }),
   setGenerationProgress: (progress) => set({ generationProgress: progress }),
   setPreviewUrl: (url) => set({ previewUrl: url }),
+  bumpPreviewFrameVersion: () => set((state) => ({ previewFrameVersion: state.previewFrameVersion + 1 })),
   setCodeFiles: (files) => set({ codeFiles: files, activeCodeFile: files?.[0]?.path ?? null }),
   setActiveCodeFile: (path) => set({ activeCodeFile: path }),
   togglePanel: () => set((state) => ({ isPanelOpen: !state.isPanelOpen })),
@@ -170,4 +185,3 @@ export const useProjectStore = create((set, get) => ({
   tabs: TABS,
   agentPhases: AGENT_PHASE,
 }));
-

@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CiStar } from 'react-icons/ci';
 import { FiEdit3, FiLogOut, FiMoreHorizontal, FiSidebar, FiTrash2 } from 'react-icons/fi';
@@ -157,9 +157,6 @@ export default function Sidebar() {
 
       {isSidebarCollapsed ? (
         <div className={styles.compactActions}>
-          <button type="button" className={styles.compactIcon} title="Side View" onClick={() => { if (window.innerWidth > 960) setSidebarCollapsed(false); }}>
-            <FiSidebar />
-          </button>
           <button
             type="button"
             className={styles.compactIcon}
@@ -174,7 +171,7 @@ export default function Sidebar() {
           <button
             type="button"
             className={`${styles.compactIcon} ${styles.startIcon}`}
-            title="Start"
+            title="Star"
             onClick={() => {
               if (!startProject) return;
               setActiveProject(startProject.id);
@@ -291,12 +288,3 @@ export default function Sidebar() {
     </aside>
   );
 }
-
-
-
-
-
-
-
-
-

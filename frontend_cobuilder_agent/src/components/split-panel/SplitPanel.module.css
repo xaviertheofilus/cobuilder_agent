@@ -1,44 +1,60 @@
 .panel {
-  width: 50%;
   height: 100%;
   border-left: 1px solid var(--border-subtle);
   background: var(--bg-base);
   display: flex;
   flex-direction: column;
-  min-width: 380px;
+  min-width: 300px;
+  min-height: 0;
 }
 
 .tabBar {
-  height: 52px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border-subtle);
   background: var(--bg-surface);
+  padding: 0 10px 0 14px;
+  gap: 10px;
 }
 
-.tabs {
-  display: flex;
+.hostWrap {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.tab {
-  height: 52px;
-  padding: 0 16px;
-  border: 0;
-  background: transparent;
-  color: var(--text-2);
-  font-size: 13px;
+.lights {
+  display: inline-flex;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
-.active {
+.lights span {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+}
+
+.lights span:nth-child(1) { background: #ff5f57; }
+.lights span:nth-child(2) { background: #ffbd2e; }
+.lights span:nth-child(3) { background: #28c841; }
+
+.hostLabel {
+  min-width: 0;
   color: var(--text-1);
-  border-bottom: 2px solid var(--accent);
+  font-size: 13px;
+  font-family: var(--font-mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .actions {
   display: flex;
   gap: 6px;
-  padding-right: 10px;
 }
 
 .actions button {
@@ -55,8 +71,9 @@
   min-height: 0;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 980px) {
   .panel {
-    min-width: 320px;
+    min-width: 0;
+    flex: 1 1 auto !important;
   }
 }
