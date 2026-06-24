@@ -10,7 +10,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ARG VITE_API_BASE_URL=http://localhost:8000
+ARG VITE_PREVIEW_BASE_URL=http://localhost:8000
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+ENV VITE_PREVIEW_BASE_URL=${VITE_PREVIEW_BASE_URL}
 RUN npm run build
 
 FROM nginx:1.27-alpine AS runtime

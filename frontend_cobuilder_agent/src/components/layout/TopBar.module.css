@@ -44,7 +44,8 @@
   gap: 8px;
 }
 
-.modeBtn {
+.modeBtn,
+.deployBtn {
   height: 36px;
   padding: 0 14px;
   border: 1px solid var(--border-default);
@@ -52,25 +53,23 @@
   background: var(--bg-surface);
   color: var(--text-2);
   font-size: 13px;
-}
-
-.modeBtn.active {
-  color: var(--text-1);
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent-soft);
-}
-
-.deployBtn {
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid var(--accent);
-  border-radius: 9px;
-  background: var(--accent-soft);
-  color: var(--text-1);
-  font-size: 13px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.modeBtn:hover,
+.deployBtn:hover {
+  border-color: var(--accent-soft);
+}
+
+.modeBtn.active,
+.deployBtn.active {
+  color: var(--text-1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft), 0 10px 20px color-mix(in oklab, var(--accent-soft) 65%, transparent);
+  background: color-mix(in oklab, var(--bg-surface) 86%, var(--accent-soft));
 }
 
 .theme {

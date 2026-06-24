@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FiEdit3, FiMoon, FiSend } from 'react-icons/fi';
 import { useProjectStore } from '../../stores/useProjectStore';
 import { useAuthStore } from '../../stores/useAuthStore';
@@ -15,6 +16,13 @@ export default function TopBar() {
   const { toggleTheme } = useAuthStore();
   const project = projects.find((item) => item.id === activeProjectId);
   const hasConversation = (messages[activeProjectId] ?? []).some((message) => message.role === 'user');
+  const [deployActive, setDeployActive] = useState(false);
+
+  useEffect(() => {
+    if (!deployActive) return undefined;
+    const timer = setTimeout(() => setDeployActive(false), 1400);
+    return () => clearTimeout(timer);
+  }, [deployActive]);
 
   const commitRename = (rawName) => {
     const next = rawName.trim() || 'Untitled Project';
@@ -52,7 +60,11 @@ export default function TopBar() {
             >
               Preview
             </button>
-            <button type="button" className={styles.deployBtn}>
+            <button
+              type="button"
+              className={`${styles.deployBtn} ${deployActive ? styles.active : ''}`}
+              onClick={() => setDeployActive(true)}
+            >
               <FiSend /> Req Deploy
             </button>
           </>

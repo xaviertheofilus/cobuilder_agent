@@ -64,6 +64,31 @@
   border-radius: 8px;
   background: var(--bg-surface-2);
   color: var(--text-2);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.actions button:hover {
+  border-color: var(--accent-soft);
+}
+
+.actionActive {
+  border-color: var(--accent) !important;
+  color: var(--text-1) !important;
+  box-shadow: 0 0 0 1px var(--accent-soft), 0 10px 20px color-mix(in oklab, var(--accent-soft) 68%, transparent);
+}
+
+.spin {
+  animation: spinRefresh 0.7s linear;
+}
+
+@keyframes spinRefresh {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .body {
@@ -76,4 +101,9 @@
     min-width: 0;
     flex: 1 1 auto !important;
   }
+}
+
+.actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
