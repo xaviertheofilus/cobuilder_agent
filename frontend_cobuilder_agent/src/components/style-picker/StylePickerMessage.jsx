@@ -1,12 +1,12 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { FiCheck, FiGrid, FiLayout, FiSidebar, FiX } from 'react-icons/fi';
 import styleData from '../../data/styles.json';
 import { useProjectStore } from '../../stores/useProjectStore';
 import styles from './StylePickerMessage.module.css';
 
 function LayoutIcon({ id }) {
-  if (id === 'sidebar-nav') return <FiSidebar />;
-  if (id === 'top-nav') return <FiLayout />;
+  if (id === 'sidebar_nav' || id === 'sidebar-nav') return <FiSidebar />;
+  if (id === 'top_nav' || id === 'top-nav') return <FiLayout />;
   return <FiGrid />;
 }
 
@@ -39,7 +39,7 @@ export default function StylePickerMessage() {
           <div className={styles.paletteRow}>
             {styleData.palettes.map((item) => (
               <button key={item.id} type="button" className={`${styles.palette} ${palette?.id === item.id ? styles.selected : ''}`} onClick={() => setPalette((current) => toggleSelection(current, item))}>
-                <div className={styles.strips}>{item.colors.map((color) => <span key={color} style={{ background: color }} />)}</div>
+                <div className={styles.strips}>{(item.preview || []).map((color) => <span key={color} style={{ background: color }} />)}</div>
                 <span>{item.name}</span>
               </button>
             ))}

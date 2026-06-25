@@ -1,20 +1,173 @@
 {
+  "meta": {
+    "animationsEnabled": true,
+    "version": 1
+  },
   "palettes": [
-    { "id": "bsi-blue", "name": "BSI Blue", "colors": ["#1E40AF", "#3B82F6", "#EFF6FF"] },
-    { "id": "slate-modern", "name": "Slate Modern", "colors": ["#1E293B", "#64748B", "#F8FAFC"] },
-    { "id": "forest-clean", "name": "Forest Clean", "colors": ["#14532D", "#22C55E", "#F0FDF4"] },
-    { "id": "warm-neutral", "name": "Warm Neutral", "colors": ["#7C2D12", "#F97316", "#FFF7ED"] },
-    { "id": "dark-pro", "name": "Dark Pro", "colors": ["#09090B", "#52525B", "#FAFAFA"] }
+    {
+      "id": "bsi_blue",
+      "name": "BSI Blue",
+      "preview": ["#1E40AF", "#3B82F6", "#EFF6FF"],
+      "colorPalette": {
+        "primary": "#1E40AF",
+        "secondary": "#3B82F6",
+        "background": "#F8FAFC",
+        "surface": "#FFFFFF",
+        "accent": "#93C5FD",
+        "textPrimary": "#0F172A",
+        "textSecondary": "#475569",
+        "border": "#BFDBFE"
+      },
+      "darkMode": false
+    },
+    {
+      "id": "slate_modern",
+      "name": "Slate Modern",
+      "preview": ["#1E293B", "#64748B", "#F8FAFC"],
+      "colorPalette": {
+        "primary": "#1E293B",
+        "secondary": "#475569",
+        "background": "#F1F5F9",
+        "surface": "#FFFFFF",
+        "accent": "#94A3B8",
+        "textPrimary": "#0F172A",
+        "textSecondary": "#64748B",
+        "border": "#CBD5E1"
+      },
+      "darkMode": false
+    },
+    {
+      "id": "forest_clean",
+      "name": "Forest Clean",
+      "preview": ["#14532D", "#22C55E", "#F0FDF4"],
+      "colorPalette": {
+        "primary": "#14532D",
+        "secondary": "#16A34A",
+        "background": "#F0FDF4",
+        "surface": "#FFFFFF",
+        "accent": "#86EFAC",
+        "textPrimary": "#052E16",
+        "textSecondary": "#166534",
+        "border": "#BBF7D0"
+      },
+      "darkMode": false
+    },
+    {
+      "id": "warm_neutral",
+      "name": "Warm Neutral",
+      "preview": ["#7C2D12", "#F97316", "#FFF7ED"],
+      "colorPalette": {
+        "primary": "#92400E",
+        "secondary": "#EA580C",
+        "background": "#FFFBEB",
+        "surface": "#FFFFFF",
+        "accent": "#FCD34D",
+        "textPrimary": "#1C1917",
+        "textSecondary": "#78716C",
+        "border": "#FDE68A"
+      },
+      "darkMode": false
+    },
+    {
+      "id": "dark_pro",
+      "name": "Dark Pro",
+      "preview": ["#09090B", "#52525B", "#FAFAFA"],
+      "colorPalette": {
+        "primary": "#0F172A",
+        "secondary": "#1E293B",
+        "background": "#020617",
+        "surface": "#0F172A",
+        "accent": "#334155",
+        "textPrimary": "#F8FAFC",
+        "textSecondary": "#94A3B8",
+        "border": "#1E293B"
+      },
+      "darkMode": true
+    }
   ],
   "fonts": [
-    { "id": "inter", "name": "Inter", "label": "Modern" },
-    { "id": "geist", "name": "Geist", "label": "Clean" },
-    { "id": "dm-sans", "name": "DM Sans", "label": "Friendly" }
+    {
+      "id": "inter",
+      "name": "Inter",
+      "label": "Modern",
+      "typography": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSizeBase": "16px",
+        "fontWeightNormal": 400,
+        "fontWeightBold": 600,
+        "lineHeight": 1.5,
+        "letterSpacing": "0"
+      }
+    },
+    {
+      "id": "geist",
+      "name": "Geist",
+      "label": "Clean",
+      "typography": {
+        "fontFamily": "Geist, sans-serif",
+        "fontSizeBase": "16px",
+        "fontWeightNormal": 400,
+        "fontWeightBold": 500,
+        "lineHeight": 1.6,
+        "letterSpacing": "0"
+      }
+    },
+    {
+      "id": "dm_sans",
+      "name": "DM Sans",
+      "label": "Friendly",
+      "typography": {
+        "fontFamily": "DM Sans, sans-serif",
+        "fontSizeBase": "16px",
+        "fontWeightNormal": 400,
+        "fontWeightBold": 500,
+        "lineHeight": 1.55,
+        "letterSpacing": "0"
+      }
+    }
   ],
   "layouts": [
-    { "id": "sidebar-nav", "name": "Sidebar Nav", "description": "Fixed left sidebar" },
-    { "id": "top-nav", "name": "Top Nav", "description": "Full-width top bar" },
-    { "id": "minimal", "name": "Minimal", "description": "No persistent nav" }
+    {
+      "id": "sidebar_nav",
+      "name": "Sidebar Nav",
+      "description": "Fixed left sidebar",
+      "layout": {
+        "type": "sidebar",
+        "sidebarWidth": "240px",
+        "sidebarPosition": "left",
+        "navHeight": null,
+        "contentMaxWidth": "1280px",
+        "borderRadius": "8px",
+        "spacing": "comfortable"
+      }
+    },
+    {
+      "id": "top_nav",
+      "name": "Top Nav",
+      "description": "Full-width top bar",
+      "layout": {
+        "type": "topnav",
+        "sidebarWidth": null,
+        "sidebarPosition": null,
+        "navHeight": "64px",
+        "contentMaxWidth": "1280px",
+        "borderRadius": "8px",
+        "spacing": "comfortable"
+      }
+    },
+    {
+      "id": "minimal",
+      "name": "Minimal",
+      "description": "No persistent nav",
+      "layout": {
+        "type": "minimal",
+        "sidebarWidth": null,
+        "sidebarPosition": null,
+        "navHeight": "56px",
+        "contentMaxWidth": "960px",
+        "borderRadius": "4px",
+        "spacing": "compact"
+      }
+    }
   ]
 }
-

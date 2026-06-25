@@ -47,7 +47,7 @@ function handleSSELine(line, onChunk, onDone) {
   return false;
 }
 
-export async function streamChat(projectId, message, onChunk, onDone, onError) {
+export async function streamChat(projectId, message, extraPayload = {}, onChunk, onDone, onError) {
   const BASE = resolveApiBaseUrl();
   const token = readToken();
 
@@ -61,7 +61,7 @@ export async function streamChat(projectId, message, onChunk, onDone, onError) {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: JSON.stringify({ content: message }),
+      body: JSON.stringify({ content: message, ...extraPayload }),
       signal: controller.signal,
     });
 

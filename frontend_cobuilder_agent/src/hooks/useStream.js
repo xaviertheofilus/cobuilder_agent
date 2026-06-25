@@ -1,5 +1,14 @@
 import { useProjectStore } from '../stores/useProjectStore';
 import { streamChat } from '../services/streamChat';
+import { buildStyleConfig } from '../services/styleConfig';
+
+function toAttachmentPayload(attachments = []) {
+  return attachments.map((file) => ({
+    name: file.name,
+    type: file.type,
+    size: file.size,
+  }));
+}
 
 export function useStream() {
   const {
@@ -18,6 +27,7 @@ export function useStream() {
     setStylePickerOpen,
     markProjectRan,
     agentPhases,
+    selectedStyle,
   } = useProjectStore();
 
   const send = async (text, attachments = []) => {
@@ -40,9 +50,15 @@ export function useStream() {
     setStreamingText('');
     setAgentPhase(agentPhases.RUNNING);
 
+    const payload = {
+      ...buildStyleConfig(selectedStyle),
+      attachments: toAttachmentPayload(attachments),
+    };
+
     await streamChat(
       activeProjectId,
       text,
+      payload,
       (chunk) => appendStreamingText(chunk),
       () => {
         finalizeStream();
